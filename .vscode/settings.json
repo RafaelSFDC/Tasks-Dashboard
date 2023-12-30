@@ -1,3 +1,7 @@
 {
-  "conventionalCommits.scopes": ["Setup and New Features", "Enhancement"]
+  "conventionalCommits.scopes": [
+    "Setup and New Features",
+    "Enhancement",
+    "Setup"
+  ]
 }
