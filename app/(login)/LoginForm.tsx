@@ -1,30 +1,62 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import SocialLogin from "../components/SocialLogin";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const login = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
+    const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    axios.post("/api/login", {
-      email,
-      password,
-    });
+    toast.promise(
+      axios.post("/api/user/login", {
+        name,
+        email,
+        password,
+      }),
+      {
+        loading: "Loging in...",
+        success: () => {
+          router.push("/");
+          setLoading(false);
+          return "Logged successfully!";
+        },
+        error: (err) => {
+          console.log(err);
+          setLoading(false);
+          return err.response.data;
+        },
+      }
+    );
   };
   return (
     <div className="flex items-center flex-1">
       <form
         className="w-[80%] gap-8 p-10 flex-1 flex flex-col h-full"
-        onSubmit={login}
+        onSubmit={(e) => login(e)}
       >
         <div>
           <h1 className="text-3xl font-bold">Login</h1>
-          <h3 className="text-slate-500">Welcome back, you've been missed!</h3>
+          <h3 className="text-slate-500">
+            {" "}
+            <span>Dosen't have an account?</span>{" "}
+            <Link
+              href="Register"
+              className="font-bold text-sky-400 underline hover:text-amber-400 transition-all"
+            >
+              Register Now
+            </Link>{" "}
+          </h3>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -62,15 +94,10 @@ const LoginForm = () => {
             <p className="text-sm text-muted-foreground">Keep me logged in</p>
           </div>
         </div>
-        <div>
-          Dosen't have an account?{" "}
-          <Link href="Register" className="font-bold border-b-2 border-sky-300">
-            Register Now
-          </Link>{" "}
-        </div>
-        <Button variant="default" className="bg-sky-400">
+        <Button variant="default" className="bg-sky-400" disabled={loading}>
           Login
         </Button>
+        <SocialLogin />
       </form>
     </div>
   );
