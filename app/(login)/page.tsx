@@ -1,16 +1,11 @@
 import Image from "next/image";
-import type { Metadata } from "next";
-import RegisterForm from "./RegisterForm";
+import LoginForm from "./LoginForm";
 
-export const metadata: Metadata = {
-  description: "Create Account",
-};
-
-export default function Register() {
+export default function Home() {
   return (
     <main className="h-full bg-zinc-200 flex items-center justify-center">
       <div className="w-full bg-white max-w-[90%] xl:max-w-[1200px] h-[90%] rounded-xl shadow-md flex">
-        <RegisterForm />
+        <LoginForm />
         <Image
           src="/login-image.png"
           alt="login image"
