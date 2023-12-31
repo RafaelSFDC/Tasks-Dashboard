@@ -1,5 +1,10 @@
 import Image from "next/image";
 import LoginForm from "./LoginForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description: "Login to your account",
+};
 
 export default function Home() {
   return (
@@ -10,7 +15,6 @@ export default function Home() {
           src="/login-image.png"
           alt="login image"
           className="rounded-xl flex-1 hidden lg:block"
-          // objectFit="contain"
           width={600}
           height={665}
         />
